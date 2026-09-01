@@ -82,3 +82,4 @@ if __name__ == "__main__":
     # View patient and staff records
     print(patient1.view_record())
     print(doctor1.view_info())
+    
