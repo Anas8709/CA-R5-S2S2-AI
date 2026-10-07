@@ -11,8 +11,8 @@ from sklearn.tree import DecisionTreeRegressor
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
 
 # Display inline matplotlib plots with IPython
-from IPython import get_ipython
-get_ipython().run_line_magic('matplotlib', 'inline')
+# from IPython import get_ipython
+# get_ipython().run_line_magic('matplotlib', 'inline')
 
 def ModelComplexity(X, y):
     """ Calculates the performance of the model as model complexity increases.
@@ -25,6 +25,7 @@ def ModelComplexity(X, y):
     max_depth = np.arange(1,11)
 
     # Calculate the training and testing scores
+    curves = learning_curve()
     train_scores, test_scores = curves.validation_curve(DecisionTreeRegressor(), X, y, \
         param_name = "max_depth", param_range = max_depth, cv = cv, scoring = 'r2')
 
@@ -35,21 +36,21 @@ def ModelComplexity(X, y):
     test_std = np.std(test_scores, axis=1)
 
     # Plot the validation curve
-    pl.figure(figsize=(7, 5))
-    pl.title('Decision Tree Regressor Complexity Performance')
-    pl.plot(max_depth, train_mean, 'o-', color = 'r', label = 'Training Score')
-    pl.plot(max_depth, test_mean, 'o-', color = 'g', label = 'Validation Score')
-    pl.fill_between(max_depth, train_mean - train_std, \
+    plt.figure(figsize=(7, 5))
+    plt.title('Decision Tree Regressor Complexity Performance')
+    plt.plot(max_depth, train_mean, 'o-', color = 'r', label = 'Training Score')
+    plt.plot(max_depth, test_mean, 'o-', color = 'g', label = 'Validation Score')
+    plt.fill_between(max_depth, train_mean - train_std, \
         train_mean + train_std, alpha = 0.15, color = 'r')
-    pl.fill_between(max_depth, test_mean - test_std, \
+    plt.fill_between(max_depth, test_mean - test_std, \
         test_mean + test_std, alpha = 0.15, color = 'g')
     
-    # Visual aesthetics
-    pl.legend(loc = 'lower right')
-    pl.xlabel('Maximum Depth')
-    pl.ylabel('Score')
-    pl.ylim([-0.05,1.05])
-    pl.show()
+    # tVisual aesthetics
+    plt.legend(loc = 'lower right')
+    plt.xlabel('Maximum Depth')
+    plt.ylabel('Score')
+    plt.ylim([-0.05,1.05])
+    plt.show()
 
 
 def PredictTrials(X, y, fitter, data):
